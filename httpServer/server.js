@@ -30,7 +30,8 @@ function start(route, handle) {
         // 3-2.在浏览器中访问 localhost:8088 时打印
         console.log('request received')
         response.writeHead(200, {'Content-Type': 'text/plain'})
-        response.write('Hello httpserver')
+        var Content = route(handle, pathname)
+        response.write(Content)
         response.end()
     }
 
