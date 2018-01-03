@@ -16,7 +16,8 @@ var url = require('url')
 // }).listen(8088)
 
 //5.封装成node模块
-function start(route) {
+//7.将handle传递给服务器
+function start(route, handle) {
     // 2.使用 匿名函数 改写httpServer
     /* 3.回调--我们创建了服务器，并且向创建它的方法传递了一个函数。无论何时我们的服务器收到一个请求，这个函数就会被调用。*/
     // 4.服务器处理请求
@@ -24,7 +25,8 @@ function start(route) {
         // 6
         var pathname = url.parse(request.url).pathname
         console.log(pathname + ' recevied')
-        route(pathname)
+        // 7
+        route(handle, pathname)
         // 3-2.在浏览器中访问 localhost:8088 时打印
         console.log('request received')
         response.writeHead(200, {'Content-Type': 'text/plain'})

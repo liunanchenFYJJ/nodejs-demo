@@ -5,5 +5,13 @@
 // 5.调用封装好的服务器模块
 var server = require('./httpServer/server')
 var router = require('./router')
+// 7.请求处理
+var requestHandler = require('./requestHandler')
 
-server.start(router.route)
+var handle = {}
+handle['/'] = requestHandler.start
+handle['/start'] = requestHandler.start
+handle['/upload'] = requestHandler.start
+
+
+server.start(router.route, handle)
