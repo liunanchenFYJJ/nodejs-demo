@@ -25,14 +25,14 @@ function start(route, handle) {
         // 6
         var pathname = url.parse(request.url).pathname
         console.log(pathname + ' recevied')
-        // 7
-        route(handle, pathname)
+        // 7 //9 非阻塞正确的方式
+        route(handle, pathname,response)
         // 3-2.在浏览器中访问 localhost:8088 时打印
-        console.log('request received')
-        response.writeHead(200, {'Content-Type': 'text/plain'})
-        var Content = route(handle, pathname)
-        response.write(Content)
-        response.end()
+        // console.log('request received')
+        // response.writeHead(200, {'Content-Type': 'text/plain'})
+        // var Content = route(handle, pathname)
+        // response.write(Content)
+        // response.end()
     }
 
     http.createServer(onRequest).listen(8088)
