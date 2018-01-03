@@ -7,18 +7,41 @@ var exec = require('child_process').exec
 
 function start(response) {
     console.log('request "start" was called')
+
+    // 10 处理post1请求
+    /*实现思路就是： 将data和end事件的回调函数直接放在服务器中，
+    在data事件回调中收集所有的POST数据，
+    当接收到所有数据，触发end事件后，其回调函数调用请求路由，并将数据传递给它，
+    然后，请求路由再将该数据传递给请求处理程序。*/
+    var body = '<html>'+
+        '<head>'+
+        '<meta http-equiv="Content-Type" content="text/html; '+
+        'charset=UTF-8" />'+
+        '</head>'+
+        '<body>'+
+        '<form action="/upload" method="post">'+
+        '<textarea name="text" rows="20" cols="60"></textarea>'+
+        '<input type="submit" value="Submit text" />'+
+        '</form>'+
+        '</body>'+
+        '</html>';
+
+    response.writeHead(200, {"Content-Type": "text/html"});
+    response.write(body);
+    response.end();
+
     // 非阻塞
     // var Content = 'empty'
     // 非阻塞--正确方式
-    exec(
-        // 'ls -lah',
-        // 为了证明时间对于非阻塞没有影响
-        'find/',{timeout: 10000,maxBuffer: 20000*1024},
-        function (error, stdout, stderr) {
-        response.writeHead(200, {"Content-Type": "text/plain"});
-        response.write(stdout);
-        response.end();
-    })
+    // exec(
+    //     // 'ls -lah',
+    //     // 为了证明时间对于非阻塞没有影响
+    //     'find/',{timeout: 10000,maxBuffer: 20000*1024},
+    //     function (error, stdout, stderr) {
+    //     response.writeHead(200, {"Content-Type": "text/plain"});
+    //     response.write(stdout);
+    //     response.end();
+    // })
     /*
     * 我们的代码是同步执行的，这就意味着在调用exec()之后，Node.js会立即执行 return content ；
     * 在这个时候，content仍然是“empty”，
@@ -37,10 +60,10 @@ function start(response) {
 //     return 'hello start'
 }
 
-function upload(response) {
+function upload(response, postDate) {
     console.log('request "upload" was called')
     response.writeHead(200, {"Content-Type": "text/plain"});
-    response.write('hola upload!');
+    response.write('hola upload!, your message:' + postDate);
     response.end();
 }
 

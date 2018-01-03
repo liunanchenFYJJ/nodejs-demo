@@ -23,16 +23,26 @@ function start(route, handle) {
     // 4.服务器处理请求
     function onRequest(request, response) {
         // 6
+        var postData = ''
         var pathname = url.parse(request.url).pathname
         console.log(pathname + ' recevied')
+        request.setEncoding('utf-8')
+
+        request.addListener('data', function (postDatachunk) {
+            postData += postDatachunk
+            console.log('received post data chunk' + postDatachunk)
+        })
         // 7 //9 非阻塞正确的方式
-        route(handle, pathname,response)
+        // route(handle, pathname,response)
         // 3-2.在浏览器中访问 localhost:8088 时打印
         // console.log('request received')
         // response.writeHead(200, {'Content-Type': 'text/plain'})
         // var Content = route(handle, pathname)
         // response.write(Content)
         // response.end()
+        request.addListener('end', function() {
+            route(handle, pathname, response, postData)
+        })
     }
 
     http.createServer(onRequest).listen(8088)
