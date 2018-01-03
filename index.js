@@ -4,5 +4,6 @@
 
 // 5.调用封装好的服务器模块
 var server = require('./httpServer/server')
+var router = require('./router')
 
-server.start()
+server.start(router.route)
