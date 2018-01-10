@@ -1,5 +1,17 @@
 {
   "name": "somepackage",
   "main": "./lib/interface.js",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "description": "an demo",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "demo"
+  ],
+  "author": "",
+  "license": "ISC"
 }
